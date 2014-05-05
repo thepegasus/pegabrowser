@@ -4,10 +4,13 @@ from urllib.request import *
 #from tkinter.ttk import *
 class pegaBrowser(Frame):
     url=None
+   # contentFrame=None
     def __init__(self, master=None):
         Frame.__init__(self, master)
-        self.pack()
+        self.pack(expand=1, fill=X)       
         self.initializeScreen()
+        
+
     def initializeScreen(self):
         self.addressLabel=Label(text="Address")
         self.addressLabel.pack(side=LEFT)
@@ -18,8 +21,11 @@ class pegaBrowser(Frame):
         self.goButton=Button(text="Go")
         self.goButton.pack(side=LEFT)
         self.goButton.bind("<Button-1>",self.goButtonHandler)
-        self.contentArea=Label(text="Content Area")
-        self.contentArea.pack(side=LEFT, fill=X, expand=1)
+        
+        contentFrame=Frame(self,relief=RAISED)
+        contentFrame.pack(side=LEFT)       
+        self.contentArea=Label(contentFrame, text="Content Area")
+        self.contentArea.pack(side=BOTTOM)
     def goButtonHandler(self, event):
         self.url=self.addressBar.get()
         #self.contentArea["text"]="Fetching "+self.url
