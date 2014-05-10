@@ -2,30 +2,43 @@
 from tkinter import *
 from urllib.request import *
 #from tkinter.ttk import *
-class pegaBrowser(Frame):
+class pegaBrowser:
     url=None
-   # contentFrame=None
+    topFrame=None
+    contentFrame=None
+    frame_padx="1m"
+    frame_pady="1m"
+    frame_ipadx="1m"
+    frame_ipady="1m"
     def __init__(self, master=None):
-        Frame.__init__(self, master)
-        self.pack(expand=1, fill=X)       
+        mainContainer=Frame(master)
+        mainContainer.pack(side=LEFT, fill=X, expand=YES,anchor=NW, padx=self.frame_padx,pady=self.frame_pady)
+
+        self.topFrame=Frame(mainContainer, borderwidth=1)
+        self.topFrame.pack(side=TOP, fill=X, expand=YES, anchor=W)
+
+        self.contentFrame=Frame(mainContainer, borderwidth=1)
+        self.contentFrame.pack(side=TOP, fill=BOTH, expand=YES,anchor=W) 
+
         self.initializeScreen()
         
-
     def initializeScreen(self):
-        self.addressLabel=Label(text="Address")
+        self.addressLabel=Label(self.topFrame, text="Address")
+        #self.addressLabel.configure(padx="1m", pady="1m")
         self.addressLabel.pack(side=LEFT)
-        self.addressBar=Entry(width=100)
+        self.addressBar=Entry(self.topFrame, width=50,borderwidth=1)
+        
+        #self.addressBar.configure(padx="1m", pady="1m")
         #For easy debug
         self.addressBar.insert(0,"http://google.com")
-        self.addressBar.pack(side=LEFT)
-        self.goButton=Button(text="Go")
+        self.addressBar.pack(side=LEFT, fill=X, expand=YES)
+        self.goButton=Button(self.topFrame,text="Go")
+        self.goButton.configure(padx="1m", pady="1m", width=6, height=1)
         self.goButton.pack(side=LEFT)
-        self.goButton.bind("<Button-1>",self.goButtonHandler)
+        self.goButton.bind("<Button-1>",self.goButtonHandler)        
         
-        contentFrame=Frame(self,relief=RAISED)
-        contentFrame.pack(side=LEFT)       
-        self.contentArea=Label(contentFrame, text="Content Area")
-        self.contentArea.pack(side=BOTTOM)
+        self.contentArea=Label(self.contentFrame)
+        self.contentArea.pack(side=BOTTOM,fill=BOTH, expand=YES)
     def goButtonHandler(self, event):
         self.url=self.addressBar.get()
         #self.contentArea["text"]="Fetching "+self.url
@@ -46,6 +59,6 @@ root.title("PegaBrowser - 0.1")
 #root.minsize(600,400)
 #Start the window maximized
 #w,h=root.winfo_screenwidth(), root.winfo_screenheight()
-#root.geometry("%dx%d+0+0" % (w,h)) 
+root.geometry("800x600") 
 pegabrowser=pegaBrowser(root)
-pegabrowser.mainloop()
+root.mainloop()
