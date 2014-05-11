@@ -2,6 +2,17 @@
 from tkinter import *
 from urllib.request import *
 #from tkinter.ttk import *
+from html.parser import HTMLParser
+
+class MyHTMLParser(HTMLParser):
+    def handle_starttag(self, tag, attrs):
+        print("Encountered a start tag:", str(tag))
+    def handle_endtag(self, tag):
+        print("Encountered an end tag :", str(tag))
+    def handle_data(self, data):
+        print("Encountered some data  :", str(data))
+
+
 class pegaBrowser:
     url=None
     topFrame=None
@@ -44,6 +55,8 @@ class pegaBrowser:
         #self.contentArea["text"]="Fetching "+self.url
         htmlData=getHttpResource(self.url)    
         self.contentArea["text"]=htmlData
+        parser = MyHTMLParser()
+        parser.feed(str(htmlData))
 
 def getHttpResource(url):
         #Get resource from server
